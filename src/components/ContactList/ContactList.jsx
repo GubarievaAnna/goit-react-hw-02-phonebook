@@ -5,7 +5,7 @@ const ContactList = ({ filter, contacts, onDeleteContact }) => {
   return (
     <ul className={s.list}>
       {contacts
-        .filter(el => el.name.includes(filter))
+        .filter(el => el.name.toLowerCase().includes(filter.toLowerCase()))
         .map(el => (
           <li key={el.id} className={s.item}>
             <p className={s.paragraph}>
