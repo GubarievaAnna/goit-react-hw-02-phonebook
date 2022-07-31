@@ -17,10 +17,7 @@ class App extends Component {
   };
 
   onFilterSearch = e => {
-    this.setState(prev => ({
-      filter: e.target.value,
-      contacts: prev.contacts.filter(el => el.name.includes(e.target.value)),
-    }));
+    this.setState({ filter: e.target.value });
   };
 
   onAddContact = (name, number) => {
@@ -41,17 +38,16 @@ class App extends Component {
   };
 
   render() {
+    const { filter, contacts } = this.state;
     return (
       <div className={s.container}>
         <h1 className={s.titlePhonebook}>Phonebook</h1>
         <ContactForm onAddContact={this.onAddContact} />
         <h2 classname={s.titleContacts}>Contacts</h2>
-        <Filter
-          filter={this.state.filter}
-          onFilterSearch={this.onFilterSearch}
-        />
+        <Filter filter={filter} onFilterSearch={this.onFilterSearch} />
         <ContactList
-          contacts={this.state.contacts}
+          filter={filter}
+          contacts={contacts}
           onDeleteContact={this.onDeleteContact}
         />
       </div>
