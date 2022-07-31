@@ -21,7 +21,9 @@ class App extends Component {
   };
 
   onAddContact = (name, number) => {
-    const repeatOfNames = this.state.contacts.find(el => el.name === name);
+    const repeatOfNames = this.state.contacts.find(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
     if (repeatOfNames) {
       alert(`${name} is already is in contacts.`);
       return;
@@ -31,6 +33,14 @@ class App extends Component {
     }));
   };
 
+  onFilterContacts = () => {
+    const { contacts, filter } = this.state;
+    const filteredContacts = contacts.filter(el =>
+      el.name.toLowerCase().includes(filter.toLowerCase())
+    );
+    return filteredContacts;
+  };
+
   onDeleteContact = id => {
     this.setState(prev => ({
       contacts: prev.contacts.filter(el => el.id !== id),
@@ -38,16 +48,17 @@ class App extends Component {
   };
 
   render() {
-    const { filter, contacts } = this.state;
     return (
       <div className={s.container}>
         <h1 className={s.titlePhonebook}>Phonebook</h1>
         <ContactForm onAddContact={this.onAddContact} />
         <h2 classname={s.titleContacts}>Contacts</h2>
-        <Filter filter={filter} onFilterSearch={this.onFilterSearch} />
+        <Filter
+          filter={this.state.filter}
+          onFilterSearch={this.onFilterSearch}
+        />
         <ContactList
-          filter={filter}
-          contacts={contacts}
+          contacts={this.onFilterContacts()}
           onDeleteContact={this.onDeleteContact}
         />
       </div>
